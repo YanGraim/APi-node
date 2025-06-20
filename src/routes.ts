@@ -3,7 +3,6 @@ import { Request, Response, Router } from "express";
 
 const router = Router();
 
-// Route Params /tarefas/2
 // Request Body { "nome": "Comprar Pao", "usuario": 123 }
 
 //Exemplo: http://localhost:3333/tarefas
@@ -16,10 +15,20 @@ const router = Router();
 
 
 // Query Params ?nome=Comprar Pao
-router.get("/tarefas", (req: Request, res: Response) => {
-    const nome = req.query.nome;
+// router.get("/tarefas", (req: Request, res: Response) => {
+//     const nome = req.query.nome;
 
-    res.json({ tarefas: nome });
-});
+//     res.json({ tarefas: nome });
+// });
+
+// export { router }
+
+
+// Route Params /tarefas/2
+router.get("/tarefas/:id", (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    res.json({ tarefas: `Tarefa com id: ${id}` });
+})
 
 export { router }
