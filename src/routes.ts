@@ -52,13 +52,25 @@ router.get("/tarefas/:index", (req: Request, res: Response) => {
 router.post("/tarefas", (req: Request, res: Response) => {
     const { nome } = req.body;
 
-    if (nome === "") {
+    if (!nome) {
         res.status(400).json({ message: "Erro ao cadastrar" })
+        return;
     }
 
     tarefas.push(nome);
 
     res.json(tarefas)
-})
+});
+
+
+//Atualizar tarefa
+router.put("/tarefas/:index", (req: Request, res: Response) => {
+    const { index } = req.params;
+    const { nome } = req.body;
+
+    tarefas[Number(index)] = nome;
+
+    res.json(tarefas);
+});
 
 export { router }
