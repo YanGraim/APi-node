@@ -73,4 +73,13 @@ router.put("/tarefas/:index", (req: Request, res: Response) => {
     res.json(tarefas);
 });
 
+//Deletar tarefa
+router.delete("/tarefas/:index", (req: Request, res: Response) => {
+    const { index } = req.params;
+
+    tarefas.splice(Number(index), 1);
+
+    res.json({ message: "Tarefa deletada com sucesso!" });
+})
+
 export { router }
