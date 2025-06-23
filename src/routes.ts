@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 
 
 const router = Router();
@@ -33,6 +33,16 @@ const tarefas = ["Estudar Node JS", "Estudar JavaScript"];
 
 // export { router }
 
+
+
+/* ENTENDENDO MIDDLEWARES 
+    - Está ali no meio após chamar a requisição e antes de chamar o callback
+*/
+router.use((req: Request, res: Response, next: NextFunction) => {
+    console.log("Passou pelo MIDDLEWARE GLOBAL");
+
+    return next();
+})
 
 //Listar todas as tarefas
 router.get("/tarefas", (req: Request, res: Response) => {
