@@ -44,6 +44,25 @@ router.use((req: Request, res: Response, next: NextFunction) => {
     return next();
 })
 
+//middleware
+function checkTarefa(req: Request, res: Response, next: NextFunction) {
+    if (!req.body.nome) {
+        return res.status(400).json({ error: "Nome invalido / Faltando nome" })
+    }
+
+    return next();
+}
+
+function checkIndexTarefa(req: Request, res: Response, next: NextFunction) {
+    const tarefa = tarefas[Number(req.params.index)];
+
+    if (!tarefa) {
+        return res.status(400).json({ error: "Tarefa nao encontrada!" })
+    }
+
+    return next();
+}
+
 //Listar todas as tarefas
 router.get("/tarefas", (req: Request, res: Response) => {
     res.json(tarefas)
@@ -59,7 +78,7 @@ router.get("/tarefas/:index", (req: Request, res: Response) => {
 
 
 //Cadastrar nova tarefa
-router.post("/tarefas", (req: Request, res: Response) => {
+router.post("/tarefas", checkTarefa, (req: Request, res: Response) => {
     const { nome } = req.body;
 
     if (!nome) {
@@ -74,7 +93,7 @@ router.post("/tarefas", (req: Request, res: Response) => {
 
 
 //Atualizar tarefa
-router.put("/tarefas/:index", (req: Request, res: Response) => {
+router.put("/tarefas/:index", checkTarefa, checkIndexTarefa, (req: Request, res: Response) => {
     const { index } = req.params;
     const { nome } = req.body;
 
@@ -84,7 +103,7 @@ router.put("/tarefas/:index", (req: Request, res: Response) => {
 });
 
 //Deletar tarefa
-router.delete("/tarefas/:index", (req: Request, res: Response) => {
+router.delete("/tarefas/:index", checkIndexTarefa, (req: Request, res: Response) => {
     const { index } = req.params;
 
     tarefas.splice(Number(index), 1);
